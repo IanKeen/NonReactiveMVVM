@@ -1,5 +1,5 @@
 //
-//  Identifiable.swift
+//  CellIdentifiable.swift
 //  NonReactiveMVVM
 //
 //  Created by Ian Keen on 21/06/2016.
@@ -9,18 +9,15 @@
 import ObjectiveC
 import UIKit
 
-protocol Identifiable: class {
-    associatedtype IdentifiableValue: Equatable
-    var uniqueId: IdentifiableValue? { get set }
+protocol CellIdentifiable: class {
+    var uniqueId: NSIndexPath? { get set }
 }
-
-extension UITableViewCell: Identifiable { }
 
 private struct AssociatedKeys {
     static var UniqueID = "UniqueID"
 }
 
-extension Identifiable where Self: UITableViewCell {
+extension UITableViewCell: CellIdentifiable {
     var uniqueId: NSIndexPath? {
         get { return objc_getAssociatedObject(self, &AssociatedKeys.UniqueID) as? NSIndexPath }
         set {
@@ -30,4 +27,5 @@ extension Identifiable where Self: UITableViewCell {
             }
         }
     }
+
 }

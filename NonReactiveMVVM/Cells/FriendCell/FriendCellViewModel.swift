@@ -13,7 +13,7 @@ class FriendCellViewModel {
     private let friend: Friend
     private let imageCache: ImageCache
     private var imageCacheCancellable: NetworkCancelable?
-    private var restrictedTo: AnyObject?
+    private var restrictedTo: NSIndexPath?
     
     //MARK: - Lifecycle
     init(friend: Friend, imageCache: ImageCache) {
@@ -34,10 +34,9 @@ class FriendCellViewModel {
     private(set) var image: UIImage?
     
     //MARK: - Actions
-    func allowedAccess(object: AnyObject) -> Bool {
+    func allowedAccess(object: CellIdentifiable) -> Bool {
         guard
-            let restrictedTo = self.restrictedTo as? NSIndexPath,
-            let object = object as? FriendCell,
+            let restrictedTo = self.restrictedTo,
             let uniqueId = object.uniqueId
             else { return true }
         
