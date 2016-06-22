@@ -15,6 +15,8 @@ class FriendCell: UITableViewCell {
     
     //MARK: - Public
     func setup(viewModel: FriendCellViewModel) {
+        guard viewModel.allowedAccess(self) else { return }
+        
         self.friendNameLabel.text = viewModel.fullName
         self.friendImageView.image = viewModel.image ?? UIImage(named: "default")
         

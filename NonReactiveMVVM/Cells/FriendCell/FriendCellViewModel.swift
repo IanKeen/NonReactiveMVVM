@@ -13,6 +13,7 @@ class FriendCellViewModel {
     private let friend: Friend
     private let imageCache: ImageCache
     private var imageCacheCancellable: NetworkCancelable?
+    private var restrictedTo: AnyObject?
     
     //MARK: - Lifecycle
     init(friend: Friend, imageCache: ImageCache) {
@@ -33,18 +34,24 @@ class FriendCellViewModel {
     private(set) var image: UIImage?
     
     //MARK: - Actions
+    func allowedAccess(object: AnyObject) -> Bool {
+        guard let restrictedTo = self.restrictedTo else { return true }
+        return restrictedTo === object
+    }
     func loadThumbnailImage() {
         guard self.image == nil else { return } //ignore if we already have an image
         guard self.imageCacheCancellable == nil else { return } //ignore if we are already fetching
         
         self.imageCacheCancellable = self.imageCache.image(
             url: self.friend.image_small,
-            success: { image in
+            success: { [weak self] image in
+                guard let `self` = self else { return }
+                
                 self.image = image
                 self.didUpdate?(self)
             },
-            failure: { error in
-                self.didError?(error)
+            failure: { [weak self] error in
+                self?.didError?(error)
             }
         )
     }
@@ -56,6 +63,7 @@ extension FriendCellViewModel: CellRepresentable {
     }
     func dequeueCell(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(String(FriendCell), forIndexPath: indexPath) as! FriendCell
+        self.restrictedTo = cell
         cell.setup(self)
         return cell
     }
