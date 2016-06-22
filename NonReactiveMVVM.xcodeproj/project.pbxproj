@@ -38,6 +38,7 @@
 		32178D7F1CF8D24F00170E89 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32178D661CF8D24F00170E89 /* NavigationController.swift */; };
 		32178D811CF8D5BA00170E89 /* ImageCacheProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32178D801CF8D5BA00170E89 /* ImageCacheProvider.swift */; };
 		32178D831CF8D96100170E89 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32178D821CF8D96100170E89 /* Mocks.swift */; };
+		32F734A91D1A64BD000D07D3 /* Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F734A81D1A64BD000D07D3 /* Identifiable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		32178D661CF8D24F00170E89 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		32178D801CF8D5BA00170E89 /* ImageCacheProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheProvider.swift; sourceTree = "<group>"; };
 		32178D821CF8D96100170E89 /* Mocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		32F734A81D1A64BD000D07D3 /* Identifiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Identifiable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				32178D471CF8D24F00170E89 /* CellRepresentable.swift */,
+				32F734A81D1A64BD000D07D3 /* Identifiable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				32178D681CF8D24F00170E89 /* ErrorType+Extensions.swift in Sources */,
 				32178D741CF8D24F00170E89 /* NetworkRequest.swift in Sources */,
 				32178D711CF8D24F00170E89 /* Navigation.swift in Sources */,
+				32F734A91D1A64BD000D07D3 /* Identifiable.swift in Sources */,
 				32178D6C1CF8D24F00170E89 /* Friend.swift in Sources */,
 				32178D6A1CF8D24F00170E89 /* UIColor+Extensions.swift in Sources */,
 				32178D731CF8D24F00170E89 /* NetworkProvider.swift in Sources */,

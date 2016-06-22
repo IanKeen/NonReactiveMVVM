@@ -35,8 +35,13 @@ class FriendCellViewModel {
     
     //MARK: - Actions
     func allowedAccess(object: AnyObject) -> Bool {
-        guard let restrictedTo = self.restrictedTo else { return true }
-        return restrictedTo === object
+        guard
+            let restrictedTo = self.restrictedTo as? NSIndexPath,
+            let object = object as? FriendCell,
+            let uniqueId = object.uniqueId
+            else { return true }
+        
+        return uniqueId == restrictedTo
     }
     func loadThumbnailImage() {
         guard self.image == nil else { return } //ignore if we already have an image
@@ -63,7 +68,8 @@ extension FriendCellViewModel: CellRepresentable {
     }
     func dequeueCell(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(String(FriendCell), forIndexPath: indexPath) as! FriendCell
-        self.restrictedTo = cell
+        cell.uniqueId = indexPath
+        self.restrictedTo = indexPath
         cell.setup(self)
         return cell
     }
