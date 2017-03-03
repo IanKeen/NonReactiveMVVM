@@ -10,13 +10,13 @@ import UIKit
 
 class Application {
     //MARK: - Dependencies
-    private let window: UIWindow
+    fileprivate let window: UIWindow
     lazy var navigation: Navigation = Navigation(
         window: self.window,
         navigationController: NavigationController(),
         application: self
     )
-    lazy var network = NetworkProvider(session: NSURLSession.sharedSession())
+    lazy var network = NetworkProvider(session: URLSession.shared)
     lazy var api: API = API(network: self.network)
     lazy var imageCache: ImageCache = ImageCacheProvider(network: self.network)
     

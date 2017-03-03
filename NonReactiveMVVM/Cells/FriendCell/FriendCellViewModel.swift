@@ -10,10 +10,10 @@ import UIKit
 
 class FriendCellViewModel {
     //MARK: - Private
-    private let friend: Friend
-    private let imageCache: ImageCache
-    private var imageCacheCancellable: NetworkCancelable?
-    private var restrictedTo: NSIndexPath?
+    fileprivate let friend: Friend
+    fileprivate let imageCache: ImageCache
+    fileprivate var imageCacheCancellable: NetworkCancelable?
+    fileprivate var restrictedTo: IndexPath?
     
     //MARK: - Lifecycle
     init(friend: Friend, imageCache: ImageCache) {
@@ -25,22 +25,22 @@ class FriendCellViewModel {
     }
     
     //MARK: - Events
-    var didError: ((ErrorType) -> Void)?
+    var didError: ((Error) -> Void)?
     var didUpdate: ((FriendCellViewModel) -> Void)?
     var didSelectFriend: ((Friend) -> Void)?
     
     //MARK: - Properties
-    var fullName: String { return "\(self.friend.firstName.capitalizedString) \(self.friend.lastName.capitalizedString)" }
-    private(set) var image: UIImage?
+    var fullName: String { return "\(self.friend.firstName.capitalized) \(self.friend.lastName.capitalized)" }
+    fileprivate(set) var image: UIImage?
     
     //MARK: - Actions
-    func allowedAccess(object: CellIdentifiable) -> Bool {
+    func allowedAccess(_ object: CellIdentifiable) -> Bool {
         guard
             let restrictedTo = self.restrictedTo,
             let uniqueId = object.uniqueId
             else { return true }
         
-        return uniqueId == restrictedTo
+        return uniqueId as IndexPath == restrictedTo
     }
     func loadThumbnailImage() {
         guard self.image == nil else { return } //ignore if we already have an image
@@ -62,11 +62,11 @@ class FriendCellViewModel {
 }
 
 extension FriendCellViewModel: CellRepresentable {
-    static func registerCell(tableView: UITableView) {
-        tableView.registerNib(UINib(nibName: String(FriendCell), bundle: nil), forCellReuseIdentifier: String(FriendCell))
+    static func registerCell(_ tableView: UITableView) {
+        tableView.register(UINib(nibName: String(describing: FriendCell.self), bundle: nil), forCellReuseIdentifier: String(describing: FriendCell.self))
     }
-    func dequeueCell(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(String(FriendCell), forIndexPath: indexPath) as! FriendCell
+    func dequeueCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: FriendCell.self), for: indexPath) as! FriendCell
         cell.uniqueId = indexPath
         self.restrictedTo = indexPath
         cell.setup(self)

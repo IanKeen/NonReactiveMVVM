@@ -13,7 +13,7 @@ protocol LocalizedError {
 }
 extension NSError: LocalizedError { }
 
-extension ErrorType {
+extension Error {
     func displayString() -> String {
         if let error = self as? LocalizedError {
             return error.localizedDescription

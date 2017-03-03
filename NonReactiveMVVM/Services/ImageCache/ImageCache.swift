@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ImageCacheError: ErrorType, CustomStringConvertible {
+enum ImageCacheError: Error, CustomStringConvertible {
     case InvalidResponse
     
     var description: String {
@@ -21,7 +21,7 @@ enum ImageCacheError: ErrorType, CustomStringConvertible {
 protocol ImageCache {
     init(network: Network)
     
-    func image(url url: String, success: (UIImage) -> Void, failure: (ErrorType) -> Void) -> NetworkCancelable?
+    func image(url url: String, success: @escaping (UIImage) -> Void, failure: @escaping (Error) -> Void) -> NetworkCancelable?
     func hasImageFor(url: String) -> Bool
     func cachedImage(url url: String, or: UIImage?) -> UIImage?
     func clearCache()

@@ -10,10 +10,10 @@ import UIKit
 
 class FriendsListViewController: UIViewController {
     //MARK: - IBOutlets
-    @IBOutlet private var tableView: UITableView!
+    @IBOutlet fileprivate var tableView: UITableView!
     
     //MARK: - Private
-    private var viewModel: FriendsListViewModel!
+    fileprivate var viewModel: FriendsListViewModel!
     
     //MARK: - Lifecycle
     required convenience init(viewModel: FriendsListViewModel) {
@@ -25,7 +25,7 @@ class FriendsListViewController: UIViewController {
         self.title = self.viewModel.title
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Refresh", style: .Plain,
+            title: "Refresh", style: .plain,
             target: self, action: #selector(FriendsListViewController.reloadData)
         )
         self.viewModel.friendViewModelsTypes.forEach { $0.registerCell(self.tableView) }
@@ -34,7 +34,7 @@ class FriendsListViewController: UIViewController {
     }
     
     //MARK: - ViewModel
-    private func bindToViewModel() {
+    fileprivate func bindToViewModel() {
         self.viewModel.didUpdate = { [weak self] _ in
             self?.viewModelDidUpdate()
         }
@@ -42,38 +42,38 @@ class FriendsListViewController: UIViewController {
             self?.viewModelDidError(error)
         }
     }
-    private func viewModelDidUpdate() {
+    fileprivate func viewModelDidUpdate() {
         self.title = self.viewModel.title
-        self.navigationItem.rightBarButtonItem?.enabled = !self.viewModel.isUpdating
+        self.navigationItem.rightBarButtonItem?.isEnabled = !self.viewModel.isUpdating
         self.tableView.reloadData()
     }
-    private func viewModelDidError(error: ErrorType) {
+    fileprivate func viewModelDidError(_ error: Error) {
         UIAlertView(title: "Error", message: error.displayString(), delegate: nil, cancelButtonTitle: "OK").show()
     }
     
     //MARK: - Actions
-    @objc private func reloadData() {
+    @objc fileprivate func reloadData() {
         self.viewModel.reloadData()
     }
 }
 
 extension FriendsListViewController: UITableViewDataSource {
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.viewModel.friendViewModels.count
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return self.viewModel.friendViewModels[indexPath.row]
             .dequeueCell(tableView, indexPath: indexPath)
     }
 }
 
 extension FriendsListViewController: UITableViewDelegate {
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.viewModel.friendViewModels[indexPath.row].cellSelected()
     }
 }
 
 extension FriendsListViewController: Themeable {
-    var navigationBarBackgroundColor: UIColor? { return .whiteColor() }
-    var navigationBarTintColor: UIColor? { return .blackColor() }
+    var navigationBarBackgroundColor: UIColor? { return .white }
+    var navigationBarTintColor: UIColor? { return .black }
 }

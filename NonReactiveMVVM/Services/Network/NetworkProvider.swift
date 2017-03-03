@@ -9,34 +9,35 @@
 import Foundation
 
 class NetworkProvider: Network {
+
     //MARK: - Private
-    let session: NSURLSession
+    let session: URLSession
     
     //MARK: - Lifecycle
-    init(session: NSURLSession = NSURLSession.sharedSession()) {
+    init(session: URLSession = URLSession.shared) {
         self.session = session
         
     }
     
     //MARK: - Public
-    func makeRequest(request: NetworkRequest, success: ([String : AnyObject]) -> Void, failure: (ErrorType) -> Void) -> NetworkCancelable? {
+    internal func makeRequest(_ request: NetworkRequest, success: @escaping ([String : AnyObject]) -> Void, failure: @escaping (Error) -> Void) -> NetworkCancelable? {
         do {
             let request = try request.buildURLRequest()
-            let task = self.session.dataTaskWithRequest(request) { (data, response, error) in
+            let task = self.session.dataTask(with: request, completionHandler: { (data, response, error) in
                 guard let data = data else {
-                    dispatch_async(dispatch_get_main_queue()) { failure(error ?? NetworkError.Unknown) }
+                    DispatchQueue.main.async { failure(error ?? NetworkError.unknown) }
                     return
                 }
                 
                 guard
-                    let jsonOptional = try? NSJSONSerialization.JSONObjectWithData(data, options: []),
+                    let jsonOptional = try? JSONSerialization.jsonObject(with: data, options: []),
                     let json = jsonOptional as? [String: AnyObject]
                     else {
-                        dispatch_async(dispatch_get_main_queue()) { failure(NetworkError.InvalidResponse) }
+                        DispatchQueue.main.async { failure(NetworkError.invalidResponse) }
                         return
                     }
-                dispatch_async(dispatch_get_main_queue()) { success(json) }
-            }
+                DispatchQueue.main.async { success(json) }
+            }) 
             task.resume()
             return task
             
@@ -45,16 +46,16 @@ class NetworkProvider: Network {
             return nil
         }
     }
-    func makeRequest(request: NetworkRequest, success: (NSData) -> Void, failure: (ErrorType) -> Void) -> NetworkCancelable? {
+    func makeRequest(_ request: NetworkRequest, success: @escaping (Data) -> Void, failure: @escaping (Error) -> Void) -> NetworkCancelable? {
         do {
             let request = try request.buildURLRequest()
-            let task = self.session.dataTaskWithRequest(request) { (data, response, error) in
+            let task = self.session.dataTask(with: request, completionHandler: { (data, response, error) in
                 guard let data = data else {
-                    dispatch_async(dispatch_get_main_queue()) { failure(error ?? NetworkError.Unknown) }
+                    DispatchQueue.main.async { failure(error ?? NetworkError.unknown) }
                     return
                 }
-                dispatch_async(dispatch_get_main_queue()) { success(data) }
-            }
+                DispatchQueue.main.async { success(data) }
+            }) 
             task.resume()
             return task
             

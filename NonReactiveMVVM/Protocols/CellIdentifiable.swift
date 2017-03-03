@@ -10,7 +10,7 @@ import ObjectiveC
 import UIKit
 
 protocol CellIdentifiable: class {
-    var uniqueId: NSIndexPath? { get set }
+    var uniqueId: IndexPath? { get set }
 }
 
 private struct AssociatedKeys {
@@ -18,8 +18,8 @@ private struct AssociatedKeys {
 }
 
 extension UITableViewCell: CellIdentifiable {
-    var uniqueId: NSIndexPath? {
-        get { return objc_getAssociatedObject(self, &AssociatedKeys.UniqueID) as? NSIndexPath }
+    var uniqueId: IndexPath? {
+        get { return objc_getAssociatedObject(self, &AssociatedKeys.UniqueID) as? IndexPath }
         set {
             objc_setAssociatedObject(self, &AssociatedKeys.UniqueID, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             if let newValue = newValue {

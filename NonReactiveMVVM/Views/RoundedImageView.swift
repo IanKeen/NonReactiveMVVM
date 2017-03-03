@@ -9,7 +9,7 @@
 import UIKit
 
 class RoundedImageView: UIImageView {
-    @IBInspectable var borderColor: UIColor = .darkGrayColor() {
+    @IBInspectable var borderColor: UIColor = .darkGray {
         didSet { self.setNeedsLayout(); self.layoutIfNeeded() }
     }
     @IBInspectable var borderWidth: CGFloat = 0.5 {
@@ -20,6 +20,6 @@ class RoundedImageView: UIImageView {
         self.clipsToBounds = true
         self.layer.cornerRadius = self.bounds.midX
         self.layer.borderWidth = self.borderWidth
-        self.layer.borderColor = self.borderColor.CGColor
+        self.layer.borderColor = self.borderColor.cgColor
     }
 }

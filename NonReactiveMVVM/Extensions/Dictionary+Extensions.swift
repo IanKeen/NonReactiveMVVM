@@ -8,16 +8,16 @@
 
 import Foundation
 
-extension Dictionary where Key: StringLiteralConvertible {
-    func getWithKeyPath<T>(keyPath: String, as: T.Type) -> T? {
+extension Dictionary where Key: ExpressibleByStringLiteral {
+    func getWithKeyPath<T>(_ keyPath: String, as: T.Type) -> T? {
         return self.getWithKeyPath(keyPath)
     }
-    func getWithKeyPath<T>(keyPath: String) -> T? {
+    func getWithKeyPath<T>(_ keyPath: String) -> T? {
         var keyPath = keyPath
-        let isKeyPath = keyPath.rangeOfString(".") != nil
+        let isKeyPath = keyPath.range(of: ".") != nil
         var dictionary = self
         if (isKeyPath) {
-            let components = keyPath.componentsSeparatedByString(".")
+            let components = keyPath.components(separatedBy: ".")
             for i in 0..<components.count {
                 let keyPathComponent = components[i]
                 let isLast = (i == components.count - 1)
@@ -35,7 +35,7 @@ extension Dictionary where Key: StringLiteralConvertible {
         return value
     }
     
-    func append(other: [Key: Value]) -> [Key: Value] {
+    func append(_ other: [Key: Value]) -> [Key: Value] {
         var result = [Key: Value]()
         [self, other].forEach { dict in
             dict.forEach { key, value in

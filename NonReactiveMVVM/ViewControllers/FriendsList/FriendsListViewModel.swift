@@ -10,8 +10,8 @@ import Foundation
 
 class FriendsListViewModel {
     //MARK: - Private
-    private let api: API
-    private let imageCache: ImageCache
+    fileprivate let api: API
+    fileprivate let imageCache: ImageCache
     
     //MARK: - Lifeycle
     init(api: API, imageCache: ImageCache) {
@@ -20,13 +20,13 @@ class FriendsListViewModel {
     }
     
     //MARK: - Events
-    var didError: ((ErrorType) -> Void)?
+    var didError: ((Error) -> Void)?
     var didUpdate: ((FriendsListViewModel) -> Void)?
     var didSelectFriend: ((Friend) -> Void)?
     
     //MARK: - Properties
     let friendViewModelsTypes: [CellRepresentable.Type] = [FriendCellViewModel.self]
-    private(set) var friendViewModels = [CellRepresentable]()
+    fileprivate(set) var friendViewModels = [CellRepresentable]()
     var title: String {
         if (self.isUpdating) {
             return "Refreshing..."
@@ -34,7 +34,7 @@ class FriendsListViewModel {
             return "Your Friends (\(self.friendViewModels.count))"
         }
     }
-    private(set) var isUpdating: Bool = false {
+    fileprivate(set) var isUpdating: Bool = false {
         didSet { self.didUpdate?(self) }
     }
     
@@ -59,7 +59,7 @@ class FriendsListViewModel {
     }
     
     //MARK: - Helpers
-    private func viewModelFor(friend: Friend) -> CellRepresentable {
+    fileprivate func viewModelFor(_ friend: Friend) -> CellRepresentable {
         let viewModel = FriendCellViewModel(friend: friend, imageCache: self.imageCache)
         viewModel.didSelectFriend = { [weak self] friend in
             self?.didSelectFriend?(friend)

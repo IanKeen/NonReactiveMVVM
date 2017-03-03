@@ -10,8 +10,8 @@ import UIKit
 
 class Navigation {
     //MARK: - Private
-    private let navigationController: UINavigationController
-    private let application: Application
+    fileprivate let navigationController: UINavigationController
+    fileprivate let application: Application
     
     //MARK: - Lifecycle
     init(window: UIWindow, navigationController: UINavigationController, application: Application) {
@@ -27,7 +27,7 @@ class Navigation {
     }
     
     //MARK: - Private
-    private func showFriendList() {
+    fileprivate func showFriendList() {
         let viewModel = FriendsListViewModel(
             api: self.application.api,
             imageCache: self.application.imageCache
@@ -39,7 +39,7 @@ class Navigation {
         let instance = FriendsListViewController(viewModel: viewModel)
         self.navigationController.pushViewController(instance, animated: false)
     }
-    private func showFriend(friend: Friend) {
+    fileprivate func showFriend(_ friend: Friend) {
         let viewModel = FriendDetailViewModel(
             friend: friend,
             imageCache: self.application.imageCache
