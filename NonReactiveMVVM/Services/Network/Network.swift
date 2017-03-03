@@ -8,14 +8,14 @@
 
 import Foundation
 
-enum NetworkError: ErrorType, CustomStringConvertible {
-    case Unknown
-    case InvalidResponse
+enum NetworkError: Error, CustomStringConvertible {
+    case unknown
+    case invalidResponse
     
     var description: String {
         switch self {
-        case .Unknown: return "An unknown error occurred"
-        case .InvalidResponse: return "Received an invalid response"
+        case .unknown: return "An unknown error occurred"
+        case .invalidResponse: return "Received an invalid response"
         }
     }
 }
@@ -23,9 +23,9 @@ enum NetworkError: ErrorType, CustomStringConvertible {
 protocol NetworkCancelable {
     func cancel()
 }
-extension NSURLSessionDataTask: NetworkCancelable { }
+extension URLSessionDataTask: NetworkCancelable { }
 
 protocol Network {
-    func makeRequest(request: NetworkRequest, success: ([String: AnyObject]) -> Void, failure: (ErrorType) -> Void) -> NetworkCancelable?
-    func makeRequest(request: NetworkRequest, success: (NSData) -> Void, failure: (ErrorType) -> Void) -> NetworkCancelable?
+    func makeRequest(_ request: NetworkRequest, success: @escaping ([String: AnyObject]) -> Void, failure: @escaping (Error) -> Void) -> NetworkCancelable?
+    func makeRequest(_ request: NetworkRequest, success: @escaping (Data) -> Void, failure: @escaping (Error) -> Void) -> NetworkCancelable?
 }

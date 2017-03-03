@@ -10,11 +10,11 @@ import UIKit
 
 class FriendCell: UITableViewCell {
     //MARK: - IBOutlets
-    @IBOutlet private var friendNameLabel: UILabel!
-    @IBOutlet private var friendImageView: UIImageView!
+    @IBOutlet fileprivate var friendNameLabel: UILabel!
+    @IBOutlet fileprivate var friendImageView: UIImageView!
     
     //MARK: - Public
-    func setup(viewModel: FriendCellViewModel) {
+    func setup(_ viewModel: FriendCellViewModel) {
         guard viewModel.allowedAccess(self) else { return }
         
         self.friendNameLabel.text = viewModel.fullName

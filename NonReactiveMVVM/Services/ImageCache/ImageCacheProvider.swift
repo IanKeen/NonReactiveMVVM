@@ -10,8 +10,8 @@ import UIKit
 
 class ImageCacheProvider: ImageCache {
     //MARK: - Private
-    private var cache = [String: UIImage]()
-    private let network: Network
+    fileprivate var cache = [String: UIImage]()
+    fileprivate let network: Network
     
     //MARK: - Lifecycle
     required init(network: Network) {
@@ -19,7 +19,7 @@ class ImageCacheProvider: ImageCache {
     }
     
     //MARK: - Public
-    func image(url url: String, success: (UIImage) -> Void, failure: (ErrorType) -> Void) -> NetworkCancelable? {
+    func image(url: String, success: @escaping (UIImage) -> Void, failure: @escaping (Error) -> Void) -> NetworkCancelable? {
         if let existing = self.cache[url] {
             success(existing)
             print("cached")
@@ -29,7 +29,7 @@ class ImageCacheProvider: ImageCache {
         let request = NetworkRequest(method: .GET, url: url)
         return self.network.makeRequest(
             request,
-            success: { [weak self] (data: NSData) in
+            success: { [weak self] (data: Data) in
                 guard let `self` = self else { return }
                 
                 guard let image = UIImage(data: data) else {
@@ -44,7 +44,7 @@ class ImageCacheProvider: ImageCache {
     func hasImageFor(url: String) -> Bool {
         return (self.cache[url] != nil)
     }
-    func cachedImage(url url: String, or: UIImage?) -> UIImage? {
+    func cachedImage(url: String, or: UIImage?) -> UIImage? {
         return self.cache[url] ?? or
     }
     func clearCache() { self.cache = [String: UIImage]() }

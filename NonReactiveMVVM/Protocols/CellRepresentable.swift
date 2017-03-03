@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CellRepresentable {
-    static func registerCell(tableView: UITableView)
-    func dequeueCell(tableView: UITableView, indexPath: NSIndexPath) -> UITableViewCell
+    static func registerCell(_ tableView: UITableView)
+    func dequeueCell(_ tableView: UITableView, indexPath: IndexPath) -> UITableViewCell
     func cellSelected()
 }

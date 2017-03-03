@@ -10,14 +10,14 @@ import UIKit
 
 class FriendDetailViewController: UIViewController {
     //MARK: - IBOutlets
-    @IBOutlet private var backingView: UIView!
-    @IBOutlet private var friendImageView: RoundedImageView!
-    @IBOutlet private var friendNameLabel: UILabel!
-    @IBOutlet private var friendEmailLabel: UILabel!
-    @IBOutlet private var friendAboutLabel: UITextView!
+    @IBOutlet fileprivate var backingView: UIView!
+    @IBOutlet fileprivate var friendImageView: RoundedImageView!
+    @IBOutlet fileprivate var friendNameLabel: UILabel!
+    @IBOutlet fileprivate var friendEmailLabel: UILabel!
+    @IBOutlet fileprivate var friendAboutLabel: UITextView!
     
     //MARK: - Private
-    private var viewModel: FriendDetailViewModel!
+    fileprivate var viewModel: FriendDetailViewModel!
     
     //MARK: - Lifecycle
     convenience init(viewModel: FriendDetailViewModel) {
@@ -36,7 +36,7 @@ class FriendDetailViewController: UIViewController {
     }
     
     //MARK: - ViewModel
-    private func bindToViewModel() {
+    fileprivate func bindToViewModel() {
         self.viewModel.didUpdate = { [weak self] in
             self?.viewModelDidUpdate()
         }
@@ -44,18 +44,18 @@ class FriendDetailViewController: UIViewController {
             self?.viewModelDidError(error)
         }
     }
-    private func viewModelDidUpdate() {
+    fileprivate func viewModelDidUpdate() {
         self.friendImageView.image = self.viewModel.image
         self.friendNameLabel.text = self.viewModel.fullName
         self.friendEmailLabel.text = self.viewModel.email
         self.friendAboutLabel.text = self.viewModel.about
     }
-    private func viewModelDidError(error: ErrorType) {
+    fileprivate func viewModelDidError(_ error: Error) {
         UIAlertView(title: "Error", message: error.displayString(), delegate: nil, cancelButtonTitle: "OK").show()
     }
 }
 
 extension FriendDetailViewController: Themeable {
     var navigationBarBackgroundColor: UIColor? { return self.backingView?.backgroundColor }
-    var navigationBarTintColor: UIColor? { return .whiteColor() }
+    var navigationBarTintColor: UIColor? { return .white }
 }
